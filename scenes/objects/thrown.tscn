@@ -1,0 +1,159 @@
+[gd_scene load_steps=19 format=3]
+
+[ext_resource type="Script" path="res://thrown.gd" id="1"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_1"]
+radius = 0.055
+height = 0.11
+radial_segments = 10
+rings = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1"]
+albedo_color = Color(0.22, 0.3, 0.16, 1)
+metallic = 0.2
+roughness = 0.55
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1"]
+top_radius = 0.014
+bottom_radius = 0.014
+height = 0.03
+radial_segments = 10
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2"]
+albedo_color = Color(0.5, 0.5, 0.52, 1)
+metallic = 0.7
+roughness = 0.55
+
+[sub_resource type="BoxMesh" id="BoxMesh_1"]
+size = Vector3(0.01, 0.012, 0.055)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3"]
+albedo_color = Color(0.6, 0.6, 0.62, 1)
+metallic = 0.7
+roughness = 0.55
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2"]
+top_radius = 0.045
+bottom_radius = 0.045
+height = 0.15
+radial_segments = 10
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4"]
+albedo_color = Color(0.2, 0.45, 0.25, 1)
+roughness = 0.55
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3"]
+top_radius = 0.015
+bottom_radius = 0.022
+height = 0.07
+radial_segments = 10
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4"]
+top_radius = 0.013
+bottom_radius = 0.013
+height = 0.06
+radial_segments = 10
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5"]
+albedo_color = Color(0.85, 0.8, 0.65, 1)
+roughness = 0.55
+
+[sub_resource type="SphereMesh" id="SphereMesh_2"]
+radius = 0.03
+height = 0.06
+radial_segments = 10
+rings = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6"]
+albedo_color = Color(1, 0.6, 0.15, 1)
+roughness = 0.55
+emission_enabled = true
+emission = Color(1, 0.6, 0.15, 1)
+emission_energy_multiplier = 6
+
+[sub_resource type="BoxMesh" id="BoxMesh_2"]
+size = Vector3(0.008, 0.03, 0.17)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7"]
+albedo_color = Color(0.78, 0.8, 0.84, 1)
+metallic = 0.8
+roughness = 0.55
+
+[sub_resource type="BoxMesh" id="BoxMesh_3"]
+size = Vector3(0.02, 0.022, 0.09)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8"]
+albedo_color = Color(0.12, 0.12, 0.13, 1)
+roughness = 0.55
+
+[node name="Thrown" type="Node3D"]
+script = ExtResource("1")
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="DataMesh" type="MeshInstance3D" parent="Visual"]
+cast_shadow = 0
+
+[node name="Grenade" type="Node3D" parent="Visual"]
+
+[node name="Body" type="MeshInstance3D" parent="Visual/Grenade"]
+position = Vector3(0, 0, 0)
+mesh = SubResource("SphereMesh_1")
+material_override = SubResource("StandardMaterial3D_1")
+cast_shadow = 0
+
+[node name="Neck" type="MeshInstance3D" parent="Visual/Grenade"]
+position = Vector3(0, 0.062, 0)
+mesh = SubResource("CylinderMesh_1")
+material_override = SubResource("StandardMaterial3D_2")
+cast_shadow = 0
+
+[node name="Lever" type="MeshInstance3D" parent="Visual/Grenade"]
+position = Vector3(0, 0.08, 0.015)
+mesh = SubResource("BoxMesh_1")
+material_override = SubResource("StandardMaterial3D_3")
+cast_shadow = 0
+
+[node name="Molotov" type="Node3D" parent="Visual"]
+
+[node name="Bottle" type="MeshInstance3D" parent="Visual/Molotov"]
+position = Vector3(0, 0, 0)
+mesh = SubResource("CylinderMesh_2")
+material_override = SubResource("StandardMaterial3D_4")
+cast_shadow = 0
+
+[node name="Neck" type="MeshInstance3D" parent="Visual/Molotov"]
+position = Vector3(0, 0.105, 0)
+mesh = SubResource("CylinderMesh_3")
+material_override = SubResource("StandardMaterial3D_4")
+cast_shadow = 0
+
+[node name="Rag" type="MeshInstance3D" parent="Visual/Molotov"]
+position = Vector3(0, 0.16, 0)
+mesh = SubResource("CylinderMesh_4")
+material_override = SubResource("StandardMaterial3D_5")
+cast_shadow = 0
+
+[node name="Fire" type="MeshInstance3D" parent="Visual/Molotov"]
+position = Vector3(0, 0.205, 0)
+mesh = SubResource("SphereMesh_2")
+material_override = SubResource("StandardMaterial3D_6")
+cast_shadow = 0
+
+[node name="Knife" type="Node3D" parent="Visual"]
+
+[node name="Blade" type="MeshInstance3D" parent="Visual/Knife"]
+position = Vector3(0, 0, -0.1)
+mesh = SubResource("BoxMesh_2")
+material_override = SubResource("StandardMaterial3D_7")
+cast_shadow = 0
+
+[node name="Handle" type="MeshInstance3D" parent="Visual/Knife"]
+position = Vector3(0, 0, 0.06)
+mesh = SubResource("BoxMesh_3")
+material_override = SubResource("StandardMaterial3D_8")
+cast_shadow = 0
