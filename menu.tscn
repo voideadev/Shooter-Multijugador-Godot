@@ -1,0 +1,571 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://menu.gd" id="1"]
+[ext_resource type="Theme" path="res://scenes/ui/theme.tres" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/characters/humanoid.tscn" id="3"]
+
+[ext_resource type="Script" path="res://pass_scroll.gd" id="ps4"]
+[sub_resource type="Gradient" id="Gradient_1"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(0.11, 0.13, 0.18, 1, 0.03, 0.04, 0.06, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1"]
+gradient = SubResource("Gradient_1")
+fill_from = Vector2(0, 0)
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Environment" id="Environment_1"]
+background_mode = 0
+ambient_light_source = 2
+ambient_light_color = Color(0.72, 0.76, 0.86, 1)
+ambient_light_energy = 0.75
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1"]
+resource_name = "platform"
+albedo_color = Color(0.09, 0.1, 0.12, 1)
+roughness = 0.6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1"]
+top_radius = 0.8
+bottom_radius = 0.8
+height = 0.04
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2"]
+resource_name = "ring"
+albedo_color = Color(0.7, 0.49, 0.175, 1)
+emission_enabled = true
+emission = Color(1, 0.7, 0.25, 1)
+emission_energy_multiplier = 1.5
+
+[sub_resource type="TorusMesh" id="TorusMesh_1"]
+inner_radius = 0.78
+outer_radius = 0.82
+
+[node name="Menu" type="Control"]
+script = ExtResource("1")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1
+anchor_bottom = 1
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_1")
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+
+[node name="Preview" type="SubViewportContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1
+stretch = true
+mouse_filter = 0
+
+[node name="Viewport" type="SubViewport" parent="Preview"]
+own_world_3d = true
+transparent_bg = true
+msaa_3d = 1
+handle_input_locally = false
+size = Vector2i(640, 720)
+render_target_update_mode = 4
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Preview/Viewport"]
+environment = SubResource("Environment_1")
+
+[node name="Sun" type="DirectionalLight3D" parent="Preview/Viewport"]
+rotation_degrees = Vector3(-38, -32, 0)
+light_energy = 1.2
+shadow_enabled = true
+
+[node name="Camera" type="Camera3D" parent="Preview/Viewport"]
+transform = Transform3D(1, 0, 0, 0, 0.99947, 0.03242, 0, -0.03242, 0.99947, 0, 1.05, 3.7)
+fov = 32.0
+
+[node name="Platform" type="MeshInstance3D" parent="Preview/Viewport"]
+position = Vector3(0, -0.02, 0)
+mesh = SubResource("CylinderMesh_1")
+material_override = SubResource("StandardMaterial3D_1")
+
+[node name="Ring" type="MeshInstance3D" parent="Preview/Viewport"]
+mesh = SubResource("TorusMesh_1")
+material_override = SubResource("StandardMaterial3D_2")
+scale = Vector3(1, 0.4, 1)
+
+[node name="Soldier" parent="Preview/Viewport" instance=ExtResource("3")]
+
+[node name="Home" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1
+anchor_bottom = 1
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="NameEdit" type="LineEdit" parent="Home"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.06
+anchor_top = 0.04
+anchor_right = 0.44
+anchor_bottom = 0.04
+offset_bottom = 64
+alignment = 1
+max_length = 14
+placeholder_text = "TU NOMBRE"
+select_all_on_focus = true
+theme_override_font_sizes/font_size = 34
+
+[node name="Buttons" type="VBoxContainer" parent="Home"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.55
+anchor_right = 0.94
+anchor_bottom = 1
+alignment = 1
+mouse_filter = 2
+theme_override_constants/separation = 20
+
+[node name="TitleTop" type="Label" parent="Home/Buttons"]
+layout_mode = 2
+text = "DESERT"
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 72
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+
+[node name="TitleBottom" type="Label" parent="Home/Buttons"]
+layout_mode = 2
+text = "STRIKE"
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 72
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.7, 0.25, 1)
+
+[node name="Gap" type="Control" parent="Home/Buttons"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 24)
+mouse_filter = 2
+
+[node name="PlayButton" type="Button" parent="Home/Buttons"]
+layout_mode = 2
+text = "JUGAR"
+theme_override_font_sizes/font_size = 46
+custom_minimum_size = Vector2(0, 100)
+
+[node name="CustomizeButton" type="Button" parent="Home/Buttons"]
+layout_mode = 2
+text = "CUSTOMIZAR"
+theme_override_font_sizes/font_size = 36
+custom_minimum_size = Vector2(0, 84)
+
+[node name="Play" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1
+anchor_bottom = 1
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Buttons" type="VBoxContainer" parent="Play"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.55
+anchor_right = 0.94
+anchor_bottom = 1
+alignment = 1
+mouse_filter = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="Play/Buttons"]
+layout_mode = 2
+text = "JUGAR"
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 56
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.7, 0.25, 1)
+
+[node name="Gap" type="Control" parent="Play/Buttons"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 16)
+mouse_filter = 2
+
+[node name="SoloButton" type="Button" parent="Play/Buttons"]
+layout_mode = 2
+text = "SOLO"
+theme_override_font_sizes/font_size = 46
+custom_minimum_size = Vector2(0, 100)
+
+[node name="MultiButton" type="Button" parent="Play/Buttons"]
+layout_mode = 2
+text = "MULTIJUGADOR"
+theme_override_font_sizes/font_size = 40
+custom_minimum_size = Vector2(0, 100)
+
+[node name="BackButton" type="Button" parent="Play/Buttons"]
+layout_mode = 2
+text = "VOLVER"
+theme_override_font_sizes/font_size = 30
+custom_minimum_size = Vector2(0, 76)
+
+[node name="Multi" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1
+anchor_bottom = 1
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Buttons" type="VBoxContainer" parent="Multi"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.55
+anchor_right = 0.94
+anchor_bottom = 1
+alignment = 1
+mouse_filter = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="Multi/Buttons"]
+layout_mode = 2
+text = "MULTIJUGADOR"
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 56
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.7, 0.25, 1)
+
+[node name="Gap" type="Control" parent="Multi/Buttons"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 16)
+mouse_filter = 2
+
+[node name="HostButton" type="Button" parent="Multi/Buttons"]
+layout_mode = 2
+text = "CREAR PARTIDA"
+theme_override_font_sizes/font_size = 40
+custom_minimum_size = Vector2(0, 100)
+
+[node name="JoinButton" type="Button" parent="Multi/Buttons"]
+layout_mode = 2
+text = "BUSCAR PARTIDA"
+theme_override_font_sizes/font_size = 40
+custom_minimum_size = Vector2(0, 100)
+
+[node name="BackButton" type="Button" parent="Multi/Buttons"]
+layout_mode = 2
+text = "ATRÁS"
+theme_override_font_sizes/font_size = 30
+custom_minimum_size = Vector2(0, 76)
+
+[node name="Custom" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1
+anchor_bottom = 1
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CharacterBar" type="HBoxContainer" parent="Custom"]
+layout_mode = 1
+anchors_preset = -1
+mouse_filter = 2
+theme_override_constants/separation = 10
+anchor_left = 0.05
+anchor_top = 0.88
+anchor_right = 0.45
+anchor_bottom = 0.97
+
+[node name="PrevButton" type="Button" parent="Custom/CharacterBar"]
+layout_mode = 2
+text = "<"
+theme_override_font_sizes/font_size = 30
+custom_minimum_size = Vector2(70, 0)
+
+[node name="CharacterLabel" type="Label" parent="Custom/CharacterBar"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 28
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.7, 0.25, 1)
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="NextButton" type="Button" parent="Custom/CharacterBar"]
+layout_mode = 2
+text = ">"
+theme_override_font_sizes/font_size = 30
+custom_minimum_size = Vector2(70, 0)
+
+[node name="Scroll" type="ScrollContainer" parent="Custom"]
+script = ExtResource("ps4")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.52
+anchor_top = 0.03
+anchor_right = 0.97
+anchor_bottom = 0.84
+horizontal_scroll_mode = 0
+scroll_deadzone = 16
+
+[node name="Box" type="VBoxContainer" parent="Custom/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="Custom/Scroll/Box"]
+layout_mode = 2
+text = "CUSTOMIZAR"
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 36
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.7, 0.25, 1)
+
+[node name="ArmaprimariaLabel" type="Label" parent="Custom/Scroll/Box"]
+layout_mode = 2
+text = "ARMA PRIMARIA"
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 20
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+
+[node name="PrimaryGrid" type="GridContainer" parent="Custom/Scroll/Box"]
+layout_mode = 2
+columns = 3
+mouse_filter = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 6
+
+[node name="Item1" type="Button" parent="Custom/Scroll/Box/PrimaryGrid"]
+layout_mode = 2
+text = "PISTOLA"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(150, 38)
+size_flags_horizontal = 3
+
+[node name="Item2" type="Button" parent="Custom/Scroll/Box/PrimaryGrid"]
+layout_mode = 2
+text = "FUSIL"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(150, 38)
+size_flags_horizontal = 3
+
+[node name="Item3" type="Button" parent="Custom/Scroll/Box/PrimaryGrid"]
+layout_mode = 2
+text = "SUBFUSIL"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(150, 38)
+size_flags_horizontal = 3
+
+[node name="Item4" type="Button" parent="Custom/Scroll/Box/PrimaryGrid"]
+layout_mode = 2
+text = "ESCOPETA"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(150, 38)
+size_flags_horizontal = 3
+
+[node name="Item5" type="Button" parent="Custom/Scroll/Box/PrimaryGrid"]
+layout_mode = 2
+text = "FRANCOTIRADOR"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(150, 38)
+size_flags_horizontal = 3
+
+[node name="ArmasecundariaLabel" type="Label" parent="Custom/Scroll/Box"]
+layout_mode = 2
+text = "ARMA SECUNDARIA"
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 20
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+
+[node name="SecondaryGrid" type="GridContainer" parent="Custom/Scroll/Box"]
+layout_mode = 2
+columns = 3
+mouse_filter = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 6
+
+[node name="Item1" type="Button" parent="Custom/Scroll/Box/SecondaryGrid"]
+layout_mode = 2
+text = "PISTOLA"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(150, 38)
+size_flags_horizontal = 3
+
+[node name="Item2" type="Button" parent="Custom/Scroll/Box/SecondaryGrid"]
+layout_mode = 2
+text = "FUSIL"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(150, 38)
+size_flags_horizontal = 3
+
+[node name="Item3" type="Button" parent="Custom/Scroll/Box/SecondaryGrid"]
+layout_mode = 2
+text = "SUBFUSIL"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(150, 38)
+size_flags_horizontal = 3
+
+[node name="Item4" type="Button" parent="Custom/Scroll/Box/SecondaryGrid"]
+layout_mode = 2
+text = "ESCOPETA"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(150, 38)
+size_flags_horizontal = 3
+
+[node name="Item5" type="Button" parent="Custom/Scroll/Box/SecondaryGrid"]
+layout_mode = 2
+text = "FRANCOTIRADOR"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(150, 38)
+size_flags_horizontal = 3
+
+[node name="CuerpoacuerpoLabel" type="Label" parent="Custom/Scroll/Box"]
+layout_mode = 2
+text = "CUERPO A CUERPO"
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 20
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+
+[node name="MeleeRow" type="HBoxContainer" parent="Custom/Scroll/Box"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Item1" type="Button" parent="Custom/Scroll/Box/MeleeRow"]
+layout_mode = 2
+text = "CUCHILLO"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(0, 38)
+size_flags_horizontal = 3
+
+[node name="Item2" type="Button" parent="Custom/Scroll/Box/MeleeRow"]
+layout_mode = 2
+text = "MACHETE"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(0, 38)
+size_flags_horizontal = 3
+
+[node name="Item3" type="Button" parent="Custom/Scroll/Box/MeleeRow"]
+layout_mode = 2
+text = "HACHA"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(0, 38)
+size_flags_horizontal = 3
+
+[node name="LanzamientoLabel" type="Label" parent="Custom/Scroll/Box"]
+layout_mode = 2
+text = "LANZAMIENTO"
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 20
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+
+[node name="ThrowRow" type="HBoxContainer" parent="Custom/Scroll/Box"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Item1" type="Button" parent="Custom/Scroll/Box/ThrowRow"]
+layout_mode = 2
+text = "GRANADA"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(0, 38)
+size_flags_horizontal = 3
+
+[node name="Item2" type="Button" parent="Custom/Scroll/Box/ThrowRow"]
+layout_mode = 2
+text = "MOLOTOV"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(0, 38)
+size_flags_horizontal = 3
+
+[node name="Item3" type="Button" parent="Custom/Scroll/Box/ThrowRow"]
+layout_mode = 2
+text = "DAGAS"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(0, 38)
+size_flags_horizontal = 3
+
+[node name="UniformeLabel" type="Label" parent="Custom/Scroll/Box"]
+layout_mode = 2
+text = "UNIFORME"
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 20
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+
+[node name="SuitRow" type="HBoxContainer" parent="Custom/Scroll/Box"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Item1" type="Button" parent="Custom/Scroll/Box/SuitRow"]
+layout_mode = 2
+text = "OLIVA"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(0, 38)
+size_flags_horizontal = 3
+
+[node name="Item2" type="Button" parent="Custom/Scroll/Box/SuitRow"]
+layout_mode = 2
+text = "ACERO"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(0, 38)
+size_flags_horizontal = 3
+
+[node name="Item3" type="Button" parent="Custom/Scroll/Box/SuitRow"]
+layout_mode = 2
+text = "URBANO"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(0, 38)
+size_flags_horizontal = 3
+
+[node name="Item4" type="Button" parent="Custom/Scroll/Box/SuitRow"]
+layout_mode = 2
+text = "GRANATE"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(0, 38)
+size_flags_horizontal = 3
+
+[node name="Item5" type="Button" parent="Custom/Scroll/Box/SuitRow"]
+layout_mode = 2
+text = "ARENA"
+theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(0, 38)
+size_flags_horizontal = 3
+
+[node name="Stats" type="Label" parent="Custom/Scroll/Box"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 16
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.7)
+autowrap_mode = 3
+
+[node name="AcceptButton" type="Button" parent="Custom"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.52
+anchor_top = 0.86
+anchor_right = 0.97
+anchor_bottom = 0.97
+text = "ACEPTAR"
+theme_override_font_sizes/font_size = 32

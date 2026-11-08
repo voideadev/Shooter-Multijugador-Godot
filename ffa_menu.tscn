@@ -1,0 +1,453 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://ffa_menu.gd" id="1"]
+[ext_resource type="Theme" path="res://scenes/ui/theme.tres" id="2"]
+
+[ext_resource type="Script" path="res://pass_scroll.gd" id="ps3"]
+[sub_resource type="StyleBoxFlat" id="PreviewFrame"]
+bg_color = Color(0, 0, 0, 0.55)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.7, 0.25, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+
+[sub_resource type="Gradient" id="Gradient_1"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(0.11, 0.13, 0.18, 1, 0.03, 0.04, 0.06, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1"]
+gradient = SubResource("Gradient_1")
+fill_from = Vector2(0, 0)
+fill_to = Vector2(0, 1)
+
+[node name="FfaMenu" type="Control"]
+script = ExtResource("1")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1
+anchor_bottom = 1
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_1")
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+
+[node name="MapPreviewFrame" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.03
+anchor_top = 0.08
+anchor_right = 0.36
+anchor_bottom = 0.5
+theme_override_styles/panel = SubResource("PreviewFrame")
+
+[node name="MapPreview" type="SubViewportContainer" parent="MapPreviewFrame"]
+layout_mode = 2
+stretch = true
+mouse_filter = 2
+
+[node name="Viewport" type="SubViewport" parent="MapPreviewFrame/MapPreview"]
+own_world_3d = true
+msaa_3d = 0
+size = Vector2i(512, 288)
+render_target_update_mode = 0
+
+[node name="Camera" type="Camera3D" parent="MapPreviewFrame/MapPreview/Viewport"]
+fov = 42.0
+far = 700.0
+current = true
+
+[node name="MapName" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.03
+anchor_top = 0.51
+anchor_right = 0.36
+anchor_bottom = 0.58
+text = ""
+horizontal_alignment = 1
+theme_type_variation = &"TitleLabel"
+theme_override_font_sizes/font_size = 26
+mouse_filter = 2
+
+[node name="Config" type="ScrollContainer" parent="."]
+script = ExtResource("ps3")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.39
+anchor_top = 0.03
+anchor_right = 0.97
+anchor_bottom = 0.8
+horizontal_scroll_mode = 0
+scroll_deadzone = 16
+visible = false
+
+[node name="Box" type="VBoxContainer" parent="Config"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Config/Box"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 46
+mouse_filter = 2
+theme_type_variation = &"TitleLabel"
+
+[node name="MapButton" type="Button" parent="Config/Box"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 28
+custom_minimum_size = Vector2(0, 70)
+
+[node name="ModeButton" type="Button" parent="Config/Box"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 28
+custom_minimum_size = Vector2(0, 70)
+
+[node name="FfaBox" type="VBoxContainer" parent="Config/Box"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="BotsRow" type="HBoxContainer" parent="Config/Box/FfaBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="MinusButton" type="Button" parent="Config/Box/FfaBox/BotsRow"]
+layout_mode = 2
+text = "-"
+theme_override_font_sizes/font_size = 44
+custom_minimum_size = Vector2(110, 70)
+
+[node name="BotsLabel" type="Label" parent="Config/Box/FfaBox/BotsRow"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 32
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+size_flags_horizontal = 3
+vertical_alignment = 1
+
+[node name="PlusButton" type="Button" parent="Config/Box/FfaBox/BotsRow"]
+layout_mode = 2
+text = "+"
+theme_override_font_sizes/font_size = 44
+custom_minimum_size = Vector2(110, 70)
+
+[node name="TeamsBox" type="VBoxContainer" parent="Config/Box"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TeamsButton" type="Button" parent="Config/Box/TeamsBox"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 28
+custom_minimum_size = Vector2(0, 70)
+
+[node name="BotsHint" type="Label" parent="Config/Box/TeamsBox"]
+layout_mode = 2
+text = "BOTS DE CADA EQUIPO (máx. 10 en total)"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 20
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.75)
+
+[node name="TeamRow1" type="HBoxContainer" parent="Config/Box/TeamsBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MinusButton" type="Button" parent="Config/Box/TeamsBox/TeamRow1"]
+layout_mode = 2
+text = "-"
+theme_override_font_sizes/font_size = 40
+custom_minimum_size = Vector2(96, 62)
+
+[node name="Label" type="Label" parent="Config/Box/TeamsBox/TeamRow1"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 28
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+size_flags_horizontal = 3
+vertical_alignment = 1
+
+[node name="PlusButton" type="Button" parent="Config/Box/TeamsBox/TeamRow1"]
+layout_mode = 2
+text = "+"
+theme_override_font_sizes/font_size = 40
+custom_minimum_size = Vector2(96, 62)
+
+[node name="TeamRow2" type="HBoxContainer" parent="Config/Box/TeamsBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MinusButton" type="Button" parent="Config/Box/TeamsBox/TeamRow2"]
+layout_mode = 2
+text = "-"
+theme_override_font_sizes/font_size = 40
+custom_minimum_size = Vector2(96, 62)
+
+[node name="Label" type="Label" parent="Config/Box/TeamsBox/TeamRow2"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 28
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+size_flags_horizontal = 3
+vertical_alignment = 1
+
+[node name="PlusButton" type="Button" parent="Config/Box/TeamsBox/TeamRow2"]
+layout_mode = 2
+text = "+"
+theme_override_font_sizes/font_size = 40
+custom_minimum_size = Vector2(96, 62)
+
+[node name="TeamRow3" type="HBoxContainer" parent="Config/Box/TeamsBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MinusButton" type="Button" parent="Config/Box/TeamsBox/TeamRow3"]
+layout_mode = 2
+text = "-"
+theme_override_font_sizes/font_size = 40
+custom_minimum_size = Vector2(96, 62)
+
+[node name="Label" type="Label" parent="Config/Box/TeamsBox/TeamRow3"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 28
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+size_flags_horizontal = 3
+vertical_alignment = 1
+
+[node name="PlusButton" type="Button" parent="Config/Box/TeamsBox/TeamRow3"]
+layout_mode = 2
+text = "+"
+theme_override_font_sizes/font_size = 40
+custom_minimum_size = Vector2(96, 62)
+
+[node name="TeamRow4" type="HBoxContainer" parent="Config/Box/TeamsBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MinusButton" type="Button" parent="Config/Box/TeamsBox/TeamRow4"]
+layout_mode = 2
+text = "-"
+theme_override_font_sizes/font_size = 40
+custom_minimum_size = Vector2(96, 62)
+
+[node name="Label" type="Label" parent="Config/Box/TeamsBox/TeamRow4"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 28
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+size_flags_horizontal = 3
+vertical_alignment = 1
+
+[node name="PlusButton" type="Button" parent="Config/Box/TeamsBox/TeamRow4"]
+layout_mode = 2
+text = "+"
+theme_override_font_sizes/font_size = 40
+custom_minimum_size = Vector2(96, 62)
+
+[node name="TotalLabel" type="Label" parent="Config/Box/TeamsBox"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 22
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.75)
+
+[node name="MyTeamButton" type="Button" parent="Config/Box/TeamsBox"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 28
+custom_minimum_size = Vector2(0, 70)
+
+[node name="DiffButton" type="Button" parent="Config/Box"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 28
+custom_minimum_size = Vector2(0, 70)
+
+[node name="HostBox" type="VBoxContainer" parent="Config/Box"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="NameEdit" type="LineEdit" parent="Config/Box/HostBox"]
+layout_mode = 2
+placeholder_text = "Nombre de la partida (opcional)"
+custom_minimum_size = Vector2(0, 60)
+
+[node name="PrivateRow" type="HBoxContainer" parent="Config/Box/HostBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PrivateButton" type="Button" parent="Config/Box/HostBox/PrivateRow"]
+layout_mode = 2
+text = "PÚBLICA"
+theme_override_font_sizes/font_size = 26
+custom_minimum_size = Vector2(220, 60)
+toggle_mode = true
+
+[node name="CodeEdit" type="LineEdit" parent="Config/Box/HostBox/PrivateRow"]
+layout_mode = 2
+placeholder_text = "Código"
+custom_minimum_size = Vector2(0, 60)
+size_flags_horizontal = 3
+visible = false
+
+[node name="ConfigBar" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.39
+anchor_top = 0.82
+anchor_right = 0.97
+anchor_bottom = 0.97
+theme_override_constants/separation = 14
+visible = false
+
+[node name="OkButton" type="Button" parent="ConfigBar"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 36
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="BackButton" type="Button" parent="ConfigBar"]
+layout_mode = 2
+text = "ATRÁS"
+theme_override_font_sizes/font_size = 28
+size_flags_horizontal = 3
+
+[node name="Join" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.22
+anchor_right = 0.78
+anchor_bottom = 1
+alignment = 1
+theme_override_constants/separation = 16
+visible = false
+
+[node name="Title" type="Label" parent="Join"]
+layout_mode = 2
+text = "UNIRSE A UNA PARTIDA"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 44
+mouse_filter = 2
+theme_type_variation = &"TitleLabel"
+
+[node name="Status" type="Label" parent="Join"]
+layout_mode = 2
+text = "Buscando partidas en tu wifi..."
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 24
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.75)
+
+[node name="Scroll" type="ScrollContainer" parent="Join"]
+script = ExtResource("ps3")
+layout_mode = 2
+scroll_deadzone = 16
+custom_minimum_size = Vector2(0, 300)
+size_flags_vertical = 3
+
+[node name="List" type="VBoxContainer" parent="Join/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="BackButton" type="Button" parent="Join"]
+layout_mode = 2
+text = "ATRÁS"
+theme_override_font_sizes/font_size = 28
+custom_minimum_size = Vector2(0, 66)
+
+[node name="Code" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.22
+anchor_right = 0.78
+anchor_bottom = 1
+alignment = 1
+theme_override_constants/separation = 16
+visible = false
+
+[node name="Title" type="Label" parent="Code"]
+layout_mode = 2
+text = "PARTIDA PRIVADA"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 44
+mouse_filter = 2
+theme_type_variation = &"TitleLabel"
+
+[node name="CodeEdit" type="LineEdit" parent="Code"]
+layout_mode = 2
+placeholder_text = "Código"
+custom_minimum_size = Vector2(0, 70)
+theme_override_font_sizes/font_size = 32
+
+[node name="Error" type="Label" parent="Code"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 24
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.4, 0.35, 1)
+
+[node name="EnterButton" type="Button" parent="Code"]
+layout_mode = 2
+text = "ENTRAR"
+theme_override_font_sizes/font_size = 34
+custom_minimum_size = Vector2(0, 86)
+
+[node name="CancelButton" type="Button" parent="Code"]
+layout_mode = 2
+text = "CANCELAR"
+theme_override_font_sizes/font_size = 28
+custom_minimum_size = Vector2(0, 66)
+
+[node name="Message" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1
+anchor_right = 1
+anchor_bottom = 1
+offset_top = -70
+offset_bottom = -20
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 26
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.7, 0.25, 1)
