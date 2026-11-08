@@ -1,0 +1,180 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://pause_menu.gd" id="1"]
+[ext_resource type="Theme" path="res://scenes/ui/theme.tres" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/ui/layout_editor.tscn" id="3"]
+
+[ext_resource type="Script" path="res://pass_scroll.gd" id="ps4"]
+[node name="PauseMenu" type="CanvasLayer"]
+script = ExtResource("1")
+process_mode = 3
+layer = 30
+visible = false
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1
+anchor_bottom = 1
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2")
+
+[node name="Dim" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1
+anchor_bottom = 1
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.72)
+mouse_filter = 0
+
+[node name="Main" type="VBoxContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.27
+anchor_right = 0.73
+anchor_bottom = 1
+alignment = 1
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Root/Main"]
+layout_mode = 2
+text = "PAUSA"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 60
+mouse_filter = 2
+theme_type_variation = &"TitleLabel"
+
+[node name="ContinueButton" type="Button" parent="Root/Main"]
+layout_mode = 2
+text = "CONTINUAR"
+theme_override_font_sizes/font_size = 36
+custom_minimum_size = Vector2(0, 84)
+
+[node name="SettingsButton" type="Button" parent="Root/Main"]
+layout_mode = 2
+text = "AJUSTES"
+theme_override_font_sizes/font_size = 36
+custom_minimum_size = Vector2(0, 84)
+
+[node name="ExitButton" type="Button" parent="Root/Main"]
+layout_mode = 2
+text = "SALIR AL MENÚ"
+theme_override_font_sizes/font_size = 32
+custom_minimum_size = Vector2(0, 76)
+
+[node name="Settings" type="VBoxContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.27
+anchor_right = 0.73
+anchor_bottom = 1
+alignment = 1
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Root/Settings"]
+layout_mode = 2
+text = "AJUSTES"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 56
+mouse_filter = 2
+theme_type_variation = &"TitleLabel"
+
+[node name="ButtonsButton" type="Button" parent="Root/Settings"]
+layout_mode = 2
+text = "BOTONES (posición, tamaño y visibilidad)"
+theme_override_font_sizes/font_size = 28
+custom_minimum_size = Vector2(0, 84)
+
+[node name="GraphicsButton" type="Button" parent="Root/Settings"]
+layout_mode = 2
+text = "GRÁFICOS"
+theme_override_font_sizes/font_size = 32
+custom_minimum_size = Vector2(0, 84)
+
+[node name="BackButton" type="Button" parent="Root/Settings"]
+layout_mode = 2
+text = "ATRÁS"
+theme_override_font_sizes/font_size = 28
+custom_minimum_size = Vector2(0, 70)
+
+[node name="Graphics" type="ScrollContainer" parent="Root"]
+script = ExtResource("ps4")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 0.03
+anchor_right = 0.8
+anchor_bottom = 0.97
+horizontal_scroll_mode = 0
+scroll_deadzone = 16
+
+[node name="Box" type="VBoxContainer" parent="Root/Graphics"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Root/Graphics/Box"]
+layout_mode = 2
+text = "GRÁFICOS"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 48
+mouse_filter = 2
+theme_type_variation = &"TitleLabel"
+
+[node name="QualityButton" type="Button" parent="Root/Graphics/Box"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 26
+custom_minimum_size = Vector2(0, 66)
+
+[node name="ResolutionButton" type="Button" parent="Root/Graphics/Box"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 26
+custom_minimum_size = Vector2(0, 66)
+
+[node name="ShadowsButton" type="Button" parent="Root/Graphics/Box"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 26
+custom_minimum_size = Vector2(0, 66)
+
+[node name="AntialiasingButton" type="Button" parent="Root/Graphics/Box"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 26
+custom_minimum_size = Vector2(0, 66)
+
+[node name="FpsButton" type="Button" parent="Root/Graphics/Box"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 26
+custom_minimum_size = Vector2(0, 66)
+
+[node name="FogButton" type="Button" parent="Root/Graphics/Box"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 26
+custom_minimum_size = Vector2(0, 66)
+
+[node name="Tip" type="Label" parent="Root/Graphics/Box"]
+layout_mode = 2
+text = "Si el móvil se calienta o va a tirones: calidad BAJA, menos resolución y 30 FPS."
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.65)
+autowrap_mode = 3
+
+[node name="BackButton" type="Button" parent="Root/Graphics/Box"]
+layout_mode = 2
+text = "ATRÁS"
+theme_override_font_sizes/font_size = 28
+custom_minimum_size = Vector2(0, 66)
+
+[node name="Editor" parent="Root" instance=ExtResource("3")]
+visible = false

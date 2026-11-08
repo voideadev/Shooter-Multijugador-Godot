@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Theme" path="res://scenes/ui/theme.tres" id="1"]
+
+[node name="TeamRow" type="HBoxContainer"]
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Swatch" type="ColorRect" parent="."]
+layout_mode = 2
+custom_minimum_size = Vector2(14, 14)
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 2
+text = ""
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 20
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)

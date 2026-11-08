@@ -1,0 +1,73 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://team_picker.gd" id="1"]
+[ext_resource type="Theme" path="res://scenes/ui/theme.tres" id="2"]
+
+[node name="TeamPicker" type="Control"]
+script = ExtResource("1")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+visible = false
+theme = ExtResource("2")
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1
+anchor_bottom = 1
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.72)
+mouse_filter = 2
+
+[node name="Box" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.27
+anchor_right = 0.73
+anchor_bottom = 1
+alignment = 1
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Box"]
+layout_mode = 2
+text = "ELIGE TU EQUIPO"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 46
+mouse_filter = 2
+theme_type_variation = &"TitleLabel"
+
+[node name="TeamRedButton" type="Button" parent="Box"]
+layout_mode = 2
+text = "RED"
+theme_override_font_sizes/font_size = 34
+custom_minimum_size = Vector2(0, 84)
+
+[node name="TeamBlueButton" type="Button" parent="Box"]
+layout_mode = 2
+text = "BLUE"
+theme_override_font_sizes/font_size = 34
+custom_minimum_size = Vector2(0, 84)
+
+[node name="TeamGreenButton" type="Button" parent="Box"]
+layout_mode = 2
+text = "GREEN"
+theme_override_font_sizes/font_size = 34
+custom_minimum_size = Vector2(0, 84)
+
+[node name="TeamYellowButton" type="Button" parent="Box"]
+layout_mode = 2
+text = "YELLOW"
+theme_override_font_sizes/font_size = 34
+custom_minimum_size = Vector2(0, 84)
+
+[node name="CancelButton" type="Button" parent="Box"]
+layout_mode = 2
+text = "CANCELAR"
+theme_override_font_sizes/font_size = 26
+custom_minimum_size = Vector2(0, 62)
