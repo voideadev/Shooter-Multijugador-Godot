@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://spark.gd" id="1"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_1"]
+radius = 0.12
+height = 0.24
+radial_segments = 8
+rings = 4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1"]
+resource_name = "spark"
+albedo_color = Color(1, 1, 1, 0.8)
+transparency = 1
+shading_mode = 0
+
+[node name="Spark" type="MeshInstance3D"]
+script = ExtResource("1")
+physics_interpolation_mode = 2
+mesh = SubResource("SphereMesh_1")
+material_override = SubResource("StandardMaterial3D_1")
+cast_shadow = 0
